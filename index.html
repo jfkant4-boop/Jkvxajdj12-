@@ -9,26 +9,39 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <script>
+        <script>
         // ==========================================
-        // CONFIGURAÇÃO DE VENCIMENTO DO SISTEMA
+        // CONFIGURAÇÃO DE VENCIMENTO EM TEMPO REAL
         // ==========================================
-        // IMPORTANTE: Meses no JavaScript começam em 0 (Jan=0, Fev=1, Mar=2, Abr=3...)
-        const dataExpiracao = new Date(2025, 5, 29);
+        const dataExpiracao = new Date(2027, 5, 29, 0, 0, 0); // 29/06/2027
 
-        const dataHoje = new Date();
+        function verificarBloqueio() {
+            const dataHoje = new Date();
 
-        if (dataHoje >= dataExpiracao) {
-            window.onload = function() {
+            if (dataHoje >= dataExpiracao) {
+                // Bloqueia a tela imediatamente
                 document.body.innerHTML = `
-                    <div style="background:#000; color:#fff; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; font-family:'Outfit', sans-serif; padding:20px;">
+                    <div style="background:#000; color:#fff; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; font-family:'Outfit', sans-serif; padding:20px; position:fixed; top:0; left:0; width:100%; z-index:99999;">
                         <span style="font-size:5rem;">⚠️</span>
                         <h1 style="color:#D4AF37; margin-top:20px;">SISTEMA BLOQUEADO</h1>
-                        <p style="color:#8E8E93; max-width:300px; margin-top:10px;">O prazo de licenciamento mensal expirou. Entre em contato com o suporte para renovar sua licença.</p>
-                        <a href="https://wa.me/63999973657" style="margin-top:30px; background:#D4AF37; color:#000; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:bold; text-transform:uppercase;">Falar com Suporte</a>
+                        <p style="color:#8E8E93; max-width:300px; margin-top:10px;">O prazo de licenciamento mensal expirou. Entre em contato com o Jair para renovar.</p>
+                        <a href="https://wa.me/556399973657?text=Olá%20Jair,%20meu%20sistema%20expirou." 
+                           style="margin-top:30px; background:#D4AF37; color:#000; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:bold; text-transform:uppercase; display:inline-block;">
+                           Falar com Suporte
+                        </a>
                     </div>`;
-            };
+                return true;
+            }
+            return false;
         }
+
+        // Verifica assim que abre
+        verificarBloqueio();
+
+        // Verifica a cada 10 segundos se o tempo acabou (mesmo com o app aberto)
+        setInterval(verificarBloqueio, 10000);
+    </script>
+
     </script>
 
     <style>
